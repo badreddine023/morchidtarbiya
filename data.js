@@ -56,14 +56,6 @@ window.MORCHID_DATA.inclusive={
   {title:'المذكرة الوزارية 19/0531',meta:'3 يوليوز 2019 · تفعيل القرار 047.19',description:'مذكرة تفعيل مقتضيات القرار الوزاري المنظم للتربية الدامجة.',url:'https://www.men.gov.ma/%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA',action:'فتح أرشيف الوزارة',direct:false},
   {title:'دليل الأسر والجمعيات',meta:'دليل مرجعي · PDF رسمي بشراكة مع اليونيسف',description:'دليل عملي حول أسس التربية الدامجة وأدوار الأسرة والجمعيات والمواكبة.',url:'https://www.unicef.org/morocco/media/1461/file/Guide%20Associations%20VA.pdf',action:'تحميل PDF مباشر',direct:true}
  ],
- memos:[
-  {title:'القانون الإطار 51.17',meta:'مرجعية تشريعية · PDF رسمي',description:'يتضمن مقتضيات الإدماج والولوجيات وتكييف الامتحانات والتشخيص والتتبع.',url:'https://www.men.gov.ma/sites/default/files/2026-02/%D8%A7%D9%84%D9%82%D8%A7%D9%86%D9%88%D9%86%20%D8%A7%D9%84%D8%A5%D8%B7%D8%A7%D8%B1.pdf',action:'تحميل PDF مباشر',direct:true},
-  {title:'الرؤية الاستراتيجية 2015-2030',meta:'الرافعة الرابعة · PDF رسمي',description:'تؤطر تأمين الحق في ولوج التربية والتكوين للأشخاص في وضعية إعاقة أو في وضعيات خاصة.',url:'https://www.men.gov.ma/sites/default/files/2026-02/%D8%A7%D9%84%D8%B1%D8%A4%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A%D8%A9.pdf',action:'تحميل PDF مباشر',direct:true},
-  {title:'خارطة الطريق 2022-2026',meta:'الإنصاف والجودة · PDF رسمي',description:'مرجعية تنزيل الإصلاح وأثره داخل المدرسة العمومية، ومنه برنامج التربية الدامجة.',url:'https://www.men.gov.ma/sites/default/files/2026-02/FRouteAr.pdf',action:'تحميل PDF مباشر',direct:true},
-  {title:'القرار الوزاري 047.19',meta:'24 يونيو 2019 · التربية الدامجة',description:'الإطار التنظيمي للتربية الدامجة للتلميذات والتلاميذ في وضعية إعاقة.',url:'https://www.men.gov.ma/%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA',action:'فتح أرشيف الوزارة',direct:false},
-  {title:'المذكرة الوزارية 19/0531',meta:'3 يوليوز 2019 · تفعيل القرار 047.19',description:'مذكرة تفعيل مقتضيات القرار الوزاري المنظم للتربية الدامجة.',url:'https://www.men.gov.ma/%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA',action:'فتح أرشيف الوزارة',direct:false},
-  {title:'دليل الأسر والجمعيات',meta:'دليل مرجعي · PDF رسمي بشراكة مع اليونيسف',description:'دليل عملي حول أسس التربية الدامجة وأدوار الأسرة والجمعيات والمواكبة.',url:'https://www.unicef.org/morocco/media/1461/file/Guide%20Associations%20VA.pdf',action:'تحميل PDF مباشر',direct:true}
- ],
  steps:[['شخّص','حدد حاجات المتعلم والحواجز التي تمنع الولوج أو المشاركة أو التعلم.'],['كيّف','غيّر الوسائل والتعليمات والفضاء والتقويم دون خفض الهدف التعلمي.'],['واكب','نسّق مع الأسرة والفريق التربوي والمتدخلين، وتتبع التقدم بانتظام.']],
  quote:'لا نسأل فقط: هل التحق المتعلم بالمدرسة؟ بل نسأل: هل استطاع أن يلج، ويتعلم، ويشارك، ويُقَيَّم، وينجح بكرامة؟',
  quiz:[
@@ -74,3 +66,12 @@ window.MORCHID_DATA.inclusive={
   {question:'ما الذي يؤكده القانون الإطار 51.17 في مجال التربية الدامجة؟',options:['إدماج الأطفال في وضعية إعاقة وتوفير الولوجيات وتكييف الامتحانات','اعتماد العزل المدرسي كحل أصلي','إلغاء دور الأسرة في المواكبة'],answer:0,explain:'ينص القانون الإطار على الإدماج والولوجيات وتكييف الامتحانات والتشخيص والتتبع ومحاربة التمييز.'}
  ]
 };
+
+window.MORCHID_DATA.resources=[
+ {id:'guide-families',type:'دليل عملي',title:'دليل الأسر والجمعيات في التربية الدامجة',description:'دليل يساعد الأسرة والجمعيات على فهم الحقوق وأدوار المواكبة وشروط إنجاح الإدماج المدرسي.',tag:'للأسرة والمجتمع',source:'اليونيسف · المغرب',url:'https://www.unicef.org/morocco/media/1461/file/Guide%20Associations%20VA.pdf',action:'تحميل الدليل',featured:true},
+ {id:'inclusive-program',type:'مورد رسمي',title:'البرنامج المهيكل للتربية الدامجة',description:'مدخل للتعرف على البرنامج المهيكل ومبادئ تنزيل التربية الدامجة داخل المؤسسات التعليمية.',tag:'للتأطير والتخطيط',source:'وزارة التربية الوطنية',url:'https://www.men.gov.ma/%D8%A7%D9%84%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D9%85%D9%87%D9%8A%D9%83%D9%84-%D9%84%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9-%D8%A7%D9%84%D8%AF%D8%A7%D9%85%D8%AC%D8%A9',action:'فتح المورد',featured:true},
+ {id:'adapted-exams',type:'دليل مرجعي',title:'مرجع الامتحانات المكيفة',description:'مرجع للمراجعة حول مبادئ تكييف الامتحانات وشروط الإنصاف في التقويم.',tag:'للتقويم والامتحانات',source:'مرجع تربوي استرشادي',url:'https://www.men.gov.ma/%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA',action:'فتح الأرشيف',featured:false},
+ {id:'framework-law',type:'نص تشريعي',title:'القانون الإطار 51.17',description:'النص المؤطر لمبادئ الإنصاف والولوجيات والإدماج وتكييف الامتحانات والتتبع.',tag:'للمرجعية القانونية',source:'وزارة التربية الوطنية · PDF رسمي',url:'https://www.men.gov.ma/sites/default/files/2026-02/%D8%A7%D9%84%D9%82%D8%A7%D9%86%D9%88%D9%86%20%D8%A7%D9%84%D8%A5%D8%B7%D8%A7%D8%B1.pdf',action:'تحميل PDF',featured:false},
+ {id:'strategy',type:'مرجعية استراتيجية',title:'الرؤية الاستراتيجية 2015-2030',description:'الرافعة الرابعة المتعلقة بتأمين الحق في ولوج التربية والتكوين للأشخاص في وضعية إعاقة أو في وضعيات خاصة.',tag:'للتخطيط الاستراتيجي',source:'المجلس الأعلى للتربية والتكوين · PDF',url:'https://www.men.gov.ma/sites/default/files/2026-02/%D8%A7%D9%84%D8%B1%D8%A4%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A%D8%A9.pdf',action:'تحميل PDF',featured:false},
+ {id:'roadmap',type:'خارطة طريق',title:'خارطة الطريق 2022-2026',description:'مرجعية عملية للإصلاح تضع الإنصاف والجودة وأثر التعلم ضمن أولويات المدرسة العمومية.',tag:'للتنزيل والتتبع',source:'وزارة التربية الوطنية · PDF رسمي',url:'https://www.men.gov.ma/sites/default/files/2026-02/FRouteAr.pdf',action:'تحميل PDF',featured:false}
+];
