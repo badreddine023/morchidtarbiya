@@ -1,4 +1,4 @@
-const CACHE='morchidtarbiya-v3';
+const CACHE='morchidtarbiya-v4';
 const BASE=self.registration.scope;
 const ASSETS=['','index.html','styles.css','data.js','app.js','manifest.webmanifest','icon.svg','sw.js','manus-routes.json'].map(name=>new URL(name,BASE).toString());
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
