@@ -14,3 +14,11 @@ h1,h2,h3,.page-head h1,.hero h1,.section-title h2,.question-card h2,.situation-c
 .feedback p,.analysis p,.scenario,.flash-face.back p,.pillar-panel p,.note,.info-block p,.definition-card p,.plan-card p{font-size:16px;line-height:1.9;letter-spacing:0}
 .hero p,.page-head p,.detail-head p,.list-card p,.action-card p{letter-spacing:0;line-height:1.8}
 .brand-copy small,.eyebrow,.source,.small,.question-domain,.session-count,.stat-card span,.metric span,.section-title p{letter-spacing:0}
+
+/* Typography and touch-target refinement */
+.brand-copy strong,h1,h2,h3,.page-head h1,.hero h1,.section-title h2,.question-card h2,.situation-card h2,.exam-setup h2,.detail-head h1,.flash-face h2,.pillar-panel h2,.resources-hero h2,.info-block h2{font-family:'Reem Kufi',sans-serif;letter-spacing:0}
+.feedback,.analysis,.scenario,.flash-face.back,.pillar-panel,.note,.info-block,.definition-card,.plan-card,.list-card p{font-family:'Noto Naskh Arabic',serif;line-height:1.9}
+.question-dot{width:40px;height:40px;font-size:12px}
+
+.question-dot{width:44px;height:44px}
+.question-dot:focus-visible,.pillar-tab:focus-visible,.flag-button:focus-visible,.list-card:focus-visible{outline:3px solid #6bb9c5;outline-offset:2px}
