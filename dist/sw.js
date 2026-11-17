@@ -1,4 +1,4 @@
-const CACHE='morchidtarbiya-v6';
+const CACHE='morchidtarbiya-v7';
 const BASE=self.registration.scope;
 const ASSETS=['','index.html','styles.css','data.js','app.js','manifest.webmanifest','icon.svg','favicon.ico','kolb-content.js','theories-extension.js','sw.js','manus-routes.json','assets/brand/logo.svg','assets/brand/favicon.svg','assets/icons/home.svg','assets/icons/schemes.svg','assets/icons/glossary.svg','assets/icons/practice.svg','assets/icons/inclusive.svg','assets/icons/resources.svg'].map(name=>new URL(name,BASE).toString());
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
