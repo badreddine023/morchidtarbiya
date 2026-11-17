@@ -4,9 +4,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const port=Number(process.env.PORT||3000);
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json; charset=utf-8','.svg':'image/svg+xml'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json; charset=utf-8','.svg':'image/svg+xml','.ico':'image/x-icon'};
 const server=http.createServer((req,res)=>{
-  const url=new URL(req.url,`http://${req.headers.host}`);
+  const rawUrl=req.url||'/';
+  const safeUrl=rawUrl.startsWith('//')?`/${rawUrl.replace(/^\/+/,'')}`:rawUrl;
+  const url=new URL(safeUrl,`http://${req.headers.host||'127.0.0.1:3000'}`);
   let file=url.pathname==='/'?'/index.html':url.pathname;
   if(file==='/manus-routes.json') file='/public/manus-routes.json';
   let target=path.join(root,file.replace(/^\/+/,''));
