@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 
 const source = fs.readFileSync('data.js', 'utf8');
+const deepSource = fs.readFileSync('deep-content.js', 'utf8');
 for (const [label, needle] of [
   ['QCM bank', 'D.qcm='],
   ['professional situations', 'D.situations='],
@@ -11,9 +12,10 @@ for (const [label, needle] of [
 ]) {
   if (!source.includes(needle)) throw new Error(`Missing ${label}`);
 }
+if (!deepSource.includes('window.MORCHID_DEEP')) throw new Error('Missing deep content');
 
 const context = vm.createContext({ window: {}, Math, Date });
-for (const filename of ['data.js', 'theories-extension.js', 'kolb-content.js']) {
+for (const filename of ['data.js', 'deep-content.js', 'theories-extension.js', 'kolb-content.js']) {
   vm.runInContext(fs.readFileSync(filename, 'utf8'), context, { filename });
 }
 const data = context.window.MORCHID_DATA;
@@ -23,7 +25,7 @@ const assertUniqueIds = (items, label) => {
 };
 
 if (data.theories.length < 10) throw new Error('Theory catalog is smaller than 10 cards');
-if (data.qcm.length < 44) throw new Error(`QCM bank has only ${data.qcm.length} questions`);
+if (data.qcm.length < 56) throw new Error(`QCM bank has only ${data.qcm.length} questions`);
 assertUniqueIds(data.qcm, 'QCM bank');
 for (const question of data.qcm) {
   if (question.options.length !== 4 || new Set(question.options).size !== 4) {
@@ -42,12 +44,17 @@ for (const question of data.qcm) answerDistribution[question.answer]++;
 if (Math.max(...answerDistribution) - Math.min(...answerDistribution) > 1) {
   throw new Error(`Correct answers are not balanced: ${answerDistribution.join(', ')}`);
 }
-const kolbQuestions = data.qcm.filter(question => question.id.startsWith('kolb-qcm-'));
+if (!data.deepUnits || data.deepUnits.length !== 6) throw new Error('Deep content must include six official-domain units');
+for (const unit of data.deepUnits) {
+  if (!unit.title || !unit.thesis || unit.sections?.length < 3 || unit.outcomes?.length < 4 || unit.traps?.length < 3) throw new Error(`Deep unit ${unit.id} is incomplete`);
+}
+
+  const kolbQuestions = data.qcm.filter(question => question.id.startsWith('kolb-qcm-'));
 if (kolbQuestions.length !== 4 || kolbQuestions.some(question => !question.theory_ids.includes('kolb'))) {
   throw new Error('Kolb QCM expansion must contain four questions linked to Kolb');
 }
 
-if (data.situations.length < 11) throw new Error(`Only ${data.situations.length} situations are available`);
+if (data.situations.length < 17) throw new Error(`Only ${data.situations.length} situations are available`);
 assertUniqueIds(data.situations, 'Professional situations');
 for (const situation of data.situations) {
   if (!situation.title || !situation.scenario || !situation.analysis || !situation.alternatives || !situation.reflection) {
@@ -65,7 +72,7 @@ if (kolbSituations.length !== 3 || kolbSituations.some(situation => !situation.t
   throw new Error('Kolb case expansion must contain three situations linked to Kolb');
 }
 
-if (data.flashcards.length < 34) throw new Error(`Only ${data.flashcards.length} flashcards are available`);
+if (data.flashcards.length < 46) throw new Error(`Only ${data.flashcards.length} flashcards are available`);
 assertUniqueIds(data.flashcards, 'Flashcards');
 for (const card of data.flashcards) {
   if (!card.front || !card.back || !card.example) throw new Error(`${card.id} is missing card content`);
@@ -96,11 +103,14 @@ for (const needle of [
   'rerenderSearch(e.target)',
   'morchid-progress-v3',
   'window.confirm',
+  'D.deepUnits',
+  'data-term-category',
+  'term-card',
 ]) {
   if (!app.includes(needle)) throw new Error(`Missing app contract: ${needle}`);
 }
 const routes = JSON.parse(fs.readFileSync('public/manus-routes.json', 'utf8'));
-for (const path of ['/#qcm', '/#theories', '/#inclusive', '/#resources']) {
+for (const path of ['/#qcm', '/#theories', '/#inclusive', '/#resources', '/#lessons']) {
   if (!routes.routes.some(route => route.path === path)) throw new Error(`Missing hash route: ${path}`);
 }
 console.log(`content checks ok: ${data.qcm.length} QCM, ${data.situations.length} situations, ${data.flashcards.length} flashcards; answers ${answerDistribution.join('/')}`);
