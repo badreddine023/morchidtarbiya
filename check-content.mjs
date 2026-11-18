@@ -46,6 +46,7 @@ if (Math.max(...answerDistribution) - Math.min(...answerDistribution) > 1) {
 }
 if (!data.deepUnits || data.deepUnits.length !== 6) throw new Error('Deep content must include six official-domain units');
 for (const unit of data.deepUnits) {
+  if (!unit.qcmIds?.length || !unit.situationIds?.length || !unit.cardIds?.length) throw new Error(`Deep unit ${unit.id} is missing linked practice`);
   if (!unit.title || !unit.thesis || unit.sections?.length < 3 || unit.outcomes?.length < 4 || unit.traps?.length < 3) throw new Error(`Deep unit ${unit.id} is incomplete`);
 }
 
@@ -106,11 +107,15 @@ for (const needle of [
   'D.deepUnits',
   'data-term-category',
   'term-card',
+  'function studyPath()',
+  'const flashDeck=()=>',
+  'state.readLessons',
+  'state.activeUnitId',
 ]) {
   if (!app.includes(needle)) throw new Error(`Missing app contract: ${needle}`);
 }
 const routes = JSON.parse(fs.readFileSync('public/manus-routes.json', 'utf8'));
-for (const path of ['/#qcm', '/#theories', '/#inclusive', '/#resources', '/#lessons']) {
+for (const path of ['/#qcm', '/#theories', '/#inclusive', '/#resources', '/#lessons', '/#path']) {
   if (!routes.routes.some(route => route.path === path)) throw new Error(`Missing hash route: ${path}`);
 }
 console.log(`content checks ok: ${data.qcm.length} QCM, ${data.situations.length} situations, ${data.flashcards.length} flashcards; answers ${answerDistribution.join('/')}`);
