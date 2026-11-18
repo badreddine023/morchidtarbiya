@@ -15,10 +15,51 @@ for (const [label, needle] of [
 if (!deepSource.includes('window.MORCHID_DEEP')) throw new Error('Missing deep content');
 
 const context = vm.createContext({ window: {}, Math, Date });
-for (const filename of ['data.js', 'deep-content.js', 'theories-extension.js', 'kolb-content.js']) {
+for (const filename of ['data.js', 'deep-content.js', 'theories-extension.js', 'kolb-content.js', 'concept-diagnostics.js']) {
   vm.runInContext(fs.readFileSync(filename, 'utf8'), context, { filename });
 }
 const data = context.window.MORCHID_DATA;
+const diagnostics = data.conceptDiagnostics;
+if (!diagnostics || Object.keys(diagnostics.questions).length !== 8 || Object.keys(diagnostics.concepts).length !== 4) {
+  throw new Error('Concept diagnostics must contain eight questions across four concepts');
+}
+const diagnosisIds = new Set();
+const patternOwners = new Map();
+const patternQuestions = new Map();
+for (const [questionId, metadata] of Object.entries(diagnostics.questions)) {
+  const question = data.qcm.find(item => item.id === questionId);
+  if (!question) throw new Error(`Diagnostics reference missing question ${questionId}`);
+  if (!diagnostics.concepts[metadata.conceptId]?.label) throw new Error(`${questionId} has no concept label`);
+  const partner = diagnostics.questions[metadata.partnerQuestionId];
+  if (!partner || partner.conceptId !== metadata.conceptId || partner.partnerQuestionId !== questionId) {
+    throw new Error(`${questionId} has an invalid or non-reciprocal concept-pair link`);
+  }
+  const expectedErrors = [0, 1, 2, 3].filter(index => index !== question.answer).sort((a, b) => a - b);
+  const actualErrors = Object.keys(metadata.errors || {}).map(Number).sort((a, b) => a - b);
+  if (JSON.stringify(actualErrors) !== JSON.stringify(expectedErrors)) {
+    throw new Error(`${questionId} must diagnose every wrong option and never the correct answer`);
+  }
+  for (const [optionIndex, error] of Object.entries(metadata.errors)) {
+    if (Number(optionIndex) === question.answer) throw new Error(`${questionId} assigns a misconception to its correct answer`);
+    if (!error.id || !error.patternId || !error.label || !error.feedback || !error.remediation) throw new Error(`${questionId} has an incomplete diagnosis`);
+    if (diagnosisIds.has(error.id)) throw new Error(`Duplicate misconception id ${error.id}`);
+    diagnosisIds.add(error.id);
+    const patternOwner = patternOwners.get(error.patternId);
+    if (patternOwner && patternOwner !== metadata.conceptId) throw new Error(`${error.patternId} is shared across unrelated concepts`);
+    patternOwners.set(error.patternId, metadata.conceptId);
+    if (!patternQuestions.has(error.patternId)) patternQuestions.set(error.patternId, new Set());
+    patternQuestions.get(error.patternId).add(questionId);
+    if (error.theoryId && !question.theory_ids.includes(error.theoryId)) throw new Error(`${questionId} links to an unrelated theory ${error.theoryId}`);
+  }
+}
+for (const conceptId of Object.keys(diagnostics.concepts)) {
+  if (Object.values(diagnostics.questions).filter(item => item.conceptId === conceptId).length !== 2) {
+    throw new Error(`${conceptId} must have exactly two paired questions`);
+  }
+  if (![...patternQuestions.entries()].some(([patternId, questions]) => patternOwners.get(patternId) === conceptId && questions.size > 1)) {
+    throw new Error(`${conceptId} needs a misconception pattern recognized across its question pair`);
+  }
+}
 const assertUniqueIds = (items, label) => {
   const ids = items.map(item => item.id);
   if (new Set(ids).size !== ids.length) throw new Error(`${label} has duplicate IDs`);
@@ -97,7 +138,7 @@ for (const needle of [
   '60*1000',
   'D.situations',
   'D.flashcards',
-  'theory-${q.theory_ids',
+  'theory-${esc(theoryId)',
   't.method_note_ar',
   't.references',
   'data-value="all">كل الحالات',
@@ -111,8 +152,22 @@ for (const needle of [
   'const flashDeck=()=>',
   'state.readLessons',
   'state.activeUnitId',
+  'state.conceptHistory',
+  'recordConceptOutcome',
+  'conceptReview',
+  'diagnostic-feedback',
+  'data-qcm-open',
 ]) {
   if (!app.includes(needle)) throw new Error(`Missing app contract: ${needle}`);
+}
+const indexHtml = fs.readFileSync('index.html', 'utf8');
+const buildSource = fs.readFileSync('build.mjs', 'utf8');
+const serviceWorker = fs.readFileSync('sw.js', 'utf8');
+if (indexHtml.indexOf('concept-diagnostics.js') < 0 || indexHtml.indexOf('concept-diagnostics.js') > indexHtml.indexOf('app.js')) {
+  throw new Error('Concept diagnostic data must load before the app');
+}
+if (!buildSource.includes("'concept-diagnostics.js'") || !serviceWorker.includes("'concept-diagnostics.js'") || !serviceWorker.includes('morchidtarbiya-v12')) {
+  throw new Error('Build output and service-worker cache must include the new diagnostic module/version');
 }
 const routes = JSON.parse(fs.readFileSync('public/manus-routes.json', 'utf8'));
 for (const path of ['/#qcm', '/#theories', '/#inclusive', '/#resources', '/#lessons', '/#path']) {

@@ -1,6 +1,6 @@
-const CACHE='morchidtarbiya-v11';
+const CACHE='morchidtarbiya-v12';
 const BASE=self.registration.scope;
-const ASSETS=['','index.html','styles.css','data.js','deep-content.js','app.js','manifest.webmanifest','icon.svg','favicon.ico','kolb-content.js','theories-extension.js','sw.js','manus-routes.json','assets/brand/logo.svg','assets/brand/favicon.svg','assets/icons/home.svg','assets/icons/schemes.svg','assets/icons/glossary.svg','assets/icons/practice.svg','assets/icons/inclusive.svg','assets/icons/resources.svg'].map(name=>new URL(name,BASE).toString());
+const ASSETS=['','index.html','styles.css','data.js','deep-content.js','app.js','manifest.webmanifest','icon.svg','favicon.ico','kolb-content.js','theories-extension.js','concept-diagnostics.js','sw.js','manus-routes.json','assets/brand/logo.svg','assets/brand/favicon.svg','assets/icons/home.svg','assets/icons/schemes.svg','assets/icons/glossary.svg','assets/icons/practice.svg','assets/icons/inclusive.svg','assets/icons/resources.svg'].map(name=>new URL(name,BASE).toString());
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response}).catch(()=>caches.match(new URL('',BASE).toString()))));});
