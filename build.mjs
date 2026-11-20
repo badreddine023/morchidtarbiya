@@ -4,7 +4,7 @@ const root=process.cwd();
 const out=path.join(root,'dist');
 fs.rmSync(out,{recursive:true,force:true});
 fs.mkdirSync(out,{recursive:true});
-for(const file of ['index.html','styles.css','data.js','deep-content.js','app.js','manifest.webmanifest','icon.svg','favicon.ico','kolb-content.js','theories-extension.js','sw.js'])fs.copyFileSync(path.join(root,file),path.join(out,file));
+for(const file of ['index.html','styles.css','data.js','deep-content.js','app.js','manifest.webmanifest','icon.svg','favicon.ico','kolb-content.js','theories-extension.js','official-classification.js','sw.js'])fs.copyFileSync(path.join(root,file),path.join(out,file));
 fs.cpSync(path.join(root,'assets'),path.join(out,'assets'),{recursive:true});
 fs.copyFileSync(path.join(root,'public/manus-routes.json'),path.join(out,'manus-routes.json'));
 console.log(`Static output written to ${path.relative(root,out)}`);
